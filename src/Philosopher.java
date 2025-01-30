@@ -10,21 +10,25 @@ public class Philosopher implements Runnable{
         this.philosopherNumber = philosopherNumber;
         this.leftFork = leftFork;
         this.rightFork = rightFork;
-        this.diningTable =diningTable;
+        this.diningTable = diningTable;
     }
 
     private void think() throws InterruptedException {
         System.out.println("Philosopher " + philosopherNumber + " is thinking");
-        Thread.sleep((int) Math.random() * 2000);
+       // System.out.flush();
+        Thread.sleep((int) (Math.random() * 2000));
     }
     private void eat() throws InterruptedException {
         System.out.println("Philosopher " + philosopherNumber + " is eating");
-        Thread.sleep((int) Math.random() * 2000);
+       // System.out.flush();
+        Thread.sleep((int) (Math.random() * 2000));
     }
     @Override
     public void run() {
         try {
-            while(true) {
+            long endTime = System.currentTimeMillis() + 10000;
+            while (System.currentTimeMillis() < endTime) {
+                System.out.println("Philosopher " + philosopherNumber + " is waiting to enter the dining table");
                 diningTable.acquire();
 
                 think();
@@ -44,10 +48,13 @@ public class Philosopher implements Runnable{
                 rightFork.putDownFork(philosopherNumber);
 
                 diningTable.release();
+                //System.out.println("Philosopher " + philosopherNumber + " left the dining table");
+
 
             }
         }
         catch (InterruptedException e) {
+            System.out.println("Philosopher " + philosopherNumber + " was interrupted");
             Thread.currentThread().interrupt();
         }
 

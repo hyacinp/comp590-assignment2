@@ -26,6 +26,8 @@ public class Philosopher implements Runnable{
     @Override
     public void run() {
         try {
+            // added a duration for the while loop to run, so that the loop does not run forever
+            // while still producing enough output to ensure that the program works the way it is supposed to
             long endTime = System.currentTimeMillis() + 10000;
             while (System.currentTimeMillis() < endTime) {
                 System.out.println("Philosopher " + philosopherNumber + " is waiting to enter the dining table");

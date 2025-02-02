@@ -33,7 +33,7 @@ prevents reaching a **deadlock**.
 The fork class contains two methods: 
 
 * `pickUpFork()` represents picking up a specific fork
-* `putDownfork()` represents putting down a specific fork
+* `putDownFork()` represents putting down a specific fork
 
 The `pickUpFork()` method locks the lock while the putDownFork method unlocks the lock. This means the lock is held throughout eating.
 The philosopher only puts down the forks after eating, so the `putDownFork()` method unlocks the lock so that the surrounding philosophers
@@ -48,18 +48,18 @@ simulate a more realistic situation (people don't just instantly transition betw
 
 ### Thinking
 
-* Similar to the `eat()` method within the Philosopher class, the `think` method prints out that the philosopher is thinking
+* Similar to the `eat()` method within the Philosopher class, the `think()` method prints out that the philosopher is thinking
 to represent their thinking phase, followed by having the philosopher "sleep" for a brief duration. 
 
 ### Life Cycle
 
-Each philosopher that is instantiated goes through the lifedcycle of waiting to enter the dining table. Once they have acquired "permission" to enter
-the table, given that there is less than 5 people at the table, they enter the thinking phase as represented by the `think` method of the
+Each philosopher that is instantiated goes through the lifecycle of waiting to enter the dining table. Once they have acquired "permission" to enter
+the table, given that there is less than 5 people at the table, they enter the thinking phase as represented by the `think()` method of the
 Philosopher class. 
 
 After thinking, each philosopher picks up their respective forks which is locked from being picked up by another philosopher by the `pickUpFork()` method.
 Once both forks are picked up, then the philosopher enters their eating phase which is induced by the `eat()` method. Then the philosopher indicates that 
-they have finished eating by putting down BOTH of their respective left and right forks which is done through the `putDownFork` method. The `putDownFork` method
+they have finished eating by putting down BOTH of their respective left and right forks which is done through the `putDownFork()` method. The `putDownFork()` method
 also unlocks each fork after being put down in order for neighboring philosophers to be able to pick up their forks, and prevent starvation.
 
 ### Other Ways Deadlock is Prevented
@@ -70,14 +70,24 @@ This reduces the chances of a deadlock because it breaks this cyclic waiting con
 ### Preventing Starvation
 
 Starvation is prevented through the use of a Semaphore dining table and the Reentrant Lock. By locking a fork when picking it up, it allows the
-philosopher picking it up to have the chance to eat, but also having the `putDownFork` method unlock the fork being put down after being used, ensures
-that other philosophers that need to use the same fork can use it to eat thus preventing starvation. Additionally, the use of Sempahore ensures that once
+philosopher picking it up to have the chance to eat, but also having the `putDownFork()` method unlock the fork being put down after being used, ensures
+that other philosophers that need to use the same fork can use it to eat thus preventing starvation. Additionally, the use of Semaphore ensures that once
 a philosopher has eaten/gone through their life cycle, they can be released from the table, so that another philosopher that has been waiting can
 acquire a spot within the dining table to eat, which also prevents starvation.
 
-### Are DeadLocks and Starvation still Possible?
+### Are Deadlocks and Starvation still Possible?
 
 **Deadlocks**
-* I think deadlocks are very unlikely to occur due to the preventative measures taken by having the last philosopher pick up their first fork from the
-side opposite of what every other philosopher picked up first, as well as through the use of Semaphore
-* I think starvation is also unlikely due to the measures taken as stated above, but scheduling conflicts could potentially cause starvation.
+
+I think deadlocks are very unlikely to occur due to the preventative measures taken by having the last philosopher pick up their first fork from the
+side opposite of what every other philosopher picked up first, as well as through the use of Semaphore. In the very rare case that Philosopher 0, 1, 2 and 3
+all pick up their left fork first right after one another, then they would all be stuck waiting to pick up their each respective right fork. This produces deadlock,
+and has the last philosopher just waiting to enter the table, causing starvation. However, this is a very unlikely scenario since the scheduling of the threads
+must align perfectly for this to occur. Thus, the features and structure I used works to avoid deadlocks and starvation for the most part.
+
+**Starvation**
+
+I think starvation is also unlikely due to the measures taken as stated above, but it is possible for the scheduler to allow other philosophers to keep
+entering the dining table. We can never really know which philosopher the scheduler will schedule into **acquiring** the entrance into the dining table, so
+the scheduling may not be exactly fair, because a philosopher may have to wait awhile to enter the dining table when another philosopher has reentered the table
+multiple times.

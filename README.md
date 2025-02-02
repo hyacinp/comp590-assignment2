@@ -2,6 +2,9 @@
 
 ## Features and Structure Used
 
+Note: the while loop in the Philosopher class is given a duration of 10 seconds to make sure that the program produces
+enough output in order to be able to make conclusions, while ensuring that the while loop does not go on forever.
+
 ### Philosophers
 
 * The Philosopher class is used to instantiate each philosopher around the dining table

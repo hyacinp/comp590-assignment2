@@ -1,4 +1,4 @@
-# Explaining my design rationale for solving the Dining Philosophers Problem
+# Explaining My Design Rationale For Solving the Dining Philosophers Problem
 
 ## Features and Structure Used
 
